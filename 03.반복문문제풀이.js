@@ -41,3 +41,34 @@ let a = Number(input2[0]);
 for (let i = 1; i <= 9; i++) {
   console.log(`${a} * ${i} = ${n * i}`);
 }
+
+// 별 찍기 1
+// 문제
+// 첫째 줄에는 별 1개, 둘째 줄에는 별 2개, N번째 줄에는 별 N개를 찍는 문제
+
+// 입력
+// 첫째 줄에 N(1 ≤ N ≤ 100)이 주어진다.
+
+// 풀이
+let fs = require("fs");
+let input3 = fs.readFileSync("/dev/stdin").toString().split("\n");
+let b = Number(input3[0]);
+
+for (let i = 1; i <= b; i++) {
+  const star = "*";
+  console.log(star.repeat(i));
+}
+
+// 다른 풀이
+// 이중 반복문
+let result = "";
+for (let i = 0; i < b; i++) {
+  // 층(행)만큼 반복
+  for (let j = 0; j <= i; j++) {
+    // 현재 행만큼 별 출력
+    result += "*";
+  }
+  result += "\n"; // 행 바뀔 때마다 줄바꿈
+}
+
+console.log(result);
