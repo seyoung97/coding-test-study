@@ -29,5 +29,23 @@ let m = Number(input[1]); // 간선의 개수
 let graph = []; // 인접 리스트 만들기
 for (let i = 1; i <= n; i++) graph[i] = [];
 for (let i = 2; i <= m + 1; i++) {
+  // m개의 줄에 걸쳐서 간선의 정보를 넣는다
   let [x, y] = input[i].split(" ").map(Number);
+  graph[x].push(y); // x번 노드에서 y번 노드로 이동 가능
+  graph[y].push(x); // y번 노드에서 x번 노드로 이동 가능
 }
+
+let cnt = 0;
+let visited = new Array(n + 1).fill(false);
+function dfs(x) {
+  // 깊이 우선 탐색 수행
+  visited[x] = true; // 현재 노드를 방문 처리
+  cnt++; // 도달이 가능 하니까 카운트 업
+  for (y of graph[x]) {
+    // 현재 노드와 연결된 다른 노드를 재귀적으로 방문
+    if (!visited[y]) dfs(y);
+  }
+}
+
+dfs(1);
+console.log(cnt - 1); // 1번 노드를 제외
