@@ -60,6 +60,7 @@ function solution(s) {
 // 문제 04
 // 문자열 s가 주어졌을 때 반복 없이 가장 긴 알파벳 길이를 구하는 함수 구현
 // 예를 들어 문자열 s가 'abssccbsbsv'일 때, 반복 없이 가장 긴 알파벳 길이는 3이다.
+// 투포인트
 function solution(s) {
   let arr = s.split("");
 
@@ -112,6 +113,7 @@ function solution(s) {
 }
 
 // 문제 5
+// set 사용
 // 문자열 s가 주어진다.
 // s가 pangram인지 판단하는 함수, solution을 완성하시오
 // pangram이란 모든 알파벳이 사용된 문장을 말한다.
