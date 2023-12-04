@@ -19,23 +19,22 @@
 // 전광판의 크기 n과 전광판에 노출할 문자 s그리고 시간 t가 주어질 때,
 // t초 후에 전광판에 표시될 문구를 보여주는 프로그램을 구현하세요.
 
+// 핵심 아이디어
+// substring() 메서드를 사용
+// string 객체의 시작 인덱스로 부터 종료 인덱스 전 까지 문자열의 부분 문자열을 반환
+
 // [., ., ., ., ., S, n, o, w, b, a, l, l]
 // 풀이
 function solution(n, s, t) {
-  let arr = s.split("");
-  let result = "";
-  let left = 0;
-  for (let i = 0; i < n; i++) {
-    arr.unshift(".");
-  }
-  if ((t = 0)) {
-    result = arr.slice(0, n - 1).join("");
-  } else if (0 < t <= n) {
-    result = arr.slice(n, n + t - 1).join("");
-  } else if (n < t <= arr.length) {
-    left = t % n;
-    result = arr.slice(n + left, n + n + left - 1);
-  }
+  // 반복 주기
+  const repeatDuration = n + s.length;
+
+  // 반복되는 주기를 제외하고 남은 시간 계산
+  const optimizeTime = t % repeatDuration;
+
+  // 남은 시간이 흐른 후의 전광판 출력
+  const text = ".".repeat(n) + s + ".".repeat(n - 1);
+  return text.substring(optimizeTime, n);
 }
 
 // 문제 02
@@ -45,6 +44,11 @@ function solution(n, s, t) {
 // 문장 s가 주어질 때, 각 단어를 거꾸로 뒤집어 모은 문자열 배열을 출력하는 프로그램을 구현하세요.
 // 단, 구분자가 연속으로 나타난 경우에는 그 안에 단어가 없다고 가정하세요.
 // (즉, 빈 단어는 없다고 가정하세요)
+
+// 핵심 아이디어
+// 정규식으로 구분자 처리
+// split, reverse, join 메서드로 단어 거꾸로 뒤집기
+
 function solution(s) {
   let result = [];
   let reversed = "";
@@ -57,9 +61,23 @@ function solution(s) {
   return result;
 }
 
+// 다른 풀이
+function solution(s) {
+  return s
+    .split(/[.,!? ]/) // 구분자 기준으로 split
+    .filter((word) => word !== "") // 공백 제거
+    .map((word) => word.split("").reverse().join("")); // 단어 뒤집기
+}
+
 // 문제 03
 // 정수 배열 A에는 0보다 큰 숫자가 N개 들어가있다.
 // N개의 모든 숫자를 아우르는 최대 공약수를 구하는 프로그램을 구현하세요.
+
+// 핵심 아이디어
+// 유클리드 호제법(Euclidean Algorithm)을 사용해 최대 공약수 구하기
+// 두 수 a와 b에 대해, b가 0이 될 때까지 a를 b로 나누고 나머지를 취하는 과정을 반복
+// 최종적으로 b가 0이 되면 그 때의 a가 최대 공약수가 된다.
+
 function findGCDOfArray(arr) {
   // 두 수의 최대공약수를 계산하는 함수
   function findGCD(a, b) {
@@ -102,6 +120,9 @@ console.log("최대공약수:", result);
 // 5명의 멤버들 가운데 10의 카드를 가진 멤버가 마피아이고
 // 저희가 출력해야할 결과는[2, 4]입니다.
 
+//핵심 아이디어
+// new Set을 사용하여 카드의 종류를 파악하기
+
 function solution(members) {
   var answer = [];
   let membersSet = new Set(members);
@@ -131,3 +152,32 @@ function solution(members) {
 // 예를 들어 12, 6은 두 수 모두 2와 3으로만 이루어져 공통된 소수 집합을 가지고 있다.
 // 9, 18의 경우 9는 3으로 이루어져 있으며, 18은 2, 3으로 이루어져 있기 때문에
 // 공통 소수 집합이 아니다.
+function GCD(a, b) {
+  if (b == 0) {
+    return a;
+  } else {
+    return GCD(b, a % b);
+  }
+}
+
+function solution(A, B) {
+  var gcd = GCD(A, B);
+  var gcdA = 0;
+  var gcdB = 0;
+
+  while (gcdA != 1) {
+    gcdA = GCD(A, gcd);
+    A = A / gcdA;
+  }
+
+  while (gcdB != 1) {
+    gcdB = GCD(B, gcd);
+    B = B / gcdB;
+  }
+
+  if (A == 1 && B == 1) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
