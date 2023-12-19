@@ -27,7 +27,7 @@ function solution(arr1, arr2) {
   while (p1 < n && p2 < m) {
     // arr1이나 arr2가 탐색이 끝나면 거짓이 돼서 끝나도록 조건 검
     if (arr1[p1] <= arr[p2]) {
-      answer.push(arr[p1++]); // arr[p1]을 push한 후에 p1++한다는 의미임
+      answer.push(arr1[p1++]); // arr[p1]을 push한 후에 p1++한다는 의미임
     } else {
       answer.push(arr2[p2++]);
     }

@@ -7,15 +7,16 @@
 // 풀이
 function solution(s) {
   let answer = "";
-  let arr = s.split("");
-
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] === arr[i + 1]) {
-      arr.splice(i, 2);
+  const stack = [];
+  for (const c of s) {
+    if (stack.length && stack[stack.length - 1] === c) {
+      stack.pop();
+    } else {
+      stack.push(c);
     }
   }
 
-  answer = arr.join("");
+  answer = stack.join("");
   return answer;
 }
 
@@ -28,7 +29,35 @@ function solution(s) {
 // 예시2 s="({)}[<]>" 출력 0
 
 // 풀이
-function solution(s) {}
+function solution(S) {
+  var stack = [];
+  var map = new Map();
+
+  map.set(")", "(");
+  map.set("}", "{");
+  map.set(">", "<");
+  map.set("]", "[");
+
+  for (var i = 0; i < S.length; i++) {
+    if ("({<[".includes(S[i])) {
+      stack.push(S[i]);
+    } else if ("})]>".includes(S[i])) {
+      if (stack.length > 0) {
+        var top = stack.pop();
+        if (map.get(S[i]) != top) {
+          return 0;
+        }
+      } else {
+        return 0;
+      }
+    }
+  }
+  if (stack.length == 0) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
 
 // 문제 3
 // s는 알파벳으로 이루어진 문자열입니다.
@@ -37,22 +66,26 @@ function solution(s) {}
 // 소거한 뒤에 나온 문자열에서 다시 연속해서 나오는 알파벳을 소거하는 작업을 더 이상 작업할 것이 없을 때까지 반복합니다.
 // 이때 최종 문자열이 완전히 소거되어 빈문자열이라면 1을 반환하고,
 // 알파벳이 남아있으면 0을 반환하는 프로그램을 구현하세요.
+
+// 풀이
 function solution(s) {
   let answer = 0;
-  let modified = true;
-  while (modified) {
-    modified = false;
-    let i = 0;
-    while (i < s.length - 1) {
-      if (s[i] === s[i + 1]) {
-        s = s.slice(0, i) + s.slice(i + 2);
-        modified = true;
-      } else {
-        i++;
-      }
+  let arr = [];
+
+  for (let i = 0; i < s.length; i++) {
+    if (arr[arr.length - 1] == s[i]) {
+      arr.pop();
+      continue;
     }
+
+    arr.push(s[i]);
   }
-  return (answer = s.length === 0 ? 1 : 0);
+
+  if (arr.length == 0) {
+    return (answer = 1);
+  }
+
+  return answer;
 }
 
 // 문제 4
@@ -67,6 +100,13 @@ function solution(s) {
 // 가로 w가 4이고 세로 h가 1인 경우는 가로가 세로보다 길기 때문에 제외
 // 이 중, 가로, 세로의 차이가 가장 적은 가로 w가 2, 세로 h가 2인 [2,2]를 반환합니다.
 
+// 풀이
+function solution(area) {
+  let w = Math.floor(Math.sqrt(area));
+  while (area % w !== 0) w--;
+  return [w, area / w];
+}
+
 // 문제5
 // 일반적으로 사용하는 수식 (A+B*C)을 중위 표기법이라는 명칭을 사용합니다.
 // 후위 표기법은 연산자가 피연산자 뒤에 오는 것을 의미합니다. (ABC*+)
@@ -75,25 +115,3 @@ function solution(s) {
 // 단, 연산자와 피연산자 사이에 공백이 한칸씩 주어지고, 출력 결과에도 모든 연산자와 피연산자 사이에 공백이 한칸씩 존재해야합니다.
 // 연산자로 사용되는 기호는'(',')','+','-','*','/'이며
 // 나머지는 피연산자로 취급합니다.
-
-function solution(S) {
-  let answer = "";
-  let target = "";
-  arr = S.split(" ");
-  for (let i = 0; i < arr.length; i++) {
-    if (
-      arr[i] === "(" ||
-      arr[i] === ")" ||
-      arr[i] === "+" ||
-      arr[i] === "-" ||
-      arr[i] === "*" ||
-      arr[i] === "/"
-    ) {
-      target = arr[i];
-      arr.splice(i, 1);
-      arr.push(target);
-    }
-    arr.splice(i + 1, 0, " ");
-  }
-  return (answer = arr.join(""));
-}
