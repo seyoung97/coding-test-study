@@ -43,6 +43,8 @@ console.log(solution(s));
 // 핵심 아이디어
 // 투포인터
 
+// set으로 중복 확인하는 방법
+
 // 풀이
 function solution(arr1, arr2) {
   let answer = [];
@@ -82,24 +84,50 @@ console.log(solution(arr1, arr2));
 // 해쉬
 
 // 풀이
-function solution(friends) {
-  let map = new Map();
-  let answer = 0;
-  let target = [];
+function countMutualFollowers(relationships) {
+  // 팔로우 관계를 저장할 Map 객체를 생성
+  const followersMap = new Map();
+  let result = 0;
 
-  for (var i = 0; i < friends.length; i++) {
-    target = map.get(friends[i][1]);
-    if (target == undefined || target.indexOf(friends[i][0]) == -1) {
-      target =
-        target == undefined ? [friends[i][1]] : target.push(friends[i][1]);
-      map.set(friends[i][0], target);
+  // 주어진 팔로우 관계 배열을 순회
+  for (const relationship of relationships) {
+    const [follower, followee] = relationship;
+
+    // 만약 팔로우 관계 Map에 followee가 있고, followee가 follower를 팔로우하고 있다면
+    if (
+      followersMap.has(followee) &&
+      followersMap.get(followee).has(follower)
+    ) {
+      // 맞팔 관계이므로 결과를 1 증가시킴
+      result++;
     } else {
-      answer++;
+      // 팔로우 관계 Map에 follower가 없다면 새로 추가
+      if (!followersMap.has(follower)) {
+        followersMap.set(follower, new Set());
+      }
+
+      // follower가 followee를 팔로우하도록 설정
+      followersMap.get(follower).add(followee);
     }
   }
 
-  return answer;
+  // 맞팔 관계인 쌍의 수 반환
+  return result;
 }
+
+// 예시
+const relationships = [
+  ["철수", "영희"],
+  ["영희", "철수"],
+  ["민수", "영희"],
+  ["민수", "철수"],
+  ["철수", "민수"],
+];
+
+console.log(countMutualFollowers(relationships)); // 출력: 3
+const test = {
+  철수: ["영희", "민수"],
+};
 
 // 문제 04
 // 이진 힙은 항상 부모 노드가 가지는 값이 자식 노드가 가지는 값보다 크거나 (MaxHeap)
@@ -154,3 +182,6 @@ let arr = [0, 5, 10, 15];
 
 // 출력 형식
 // 게임의 결과가 무승부인지를 출력합니다.
+
+// 핵심 아이디어
+// 해쉬
